@@ -1,139 +1,56 @@
 package com.example.employeemanagementsystemapi.entity;
 
+import com.example.employeemanagementsystemapi.audit.EmployeeAuditListener;
+import com.example.employeemanagementsystemapi.type.EmploymentStatus;
 import jakarta.persistence.*;
-import lombok.Data;
+import jakarta.validation.constraints.*;
+import lombok.*;
 
 import java.time.LocalDate;
 
-
 @Entity
 @Table(name = "employees")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+@EntityListeners(EmployeeAuditListener.class)
 public class Employee {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "employee_id", unique = true, nullable = false)
-    private String employeeId;
-
-    @Column(name = "full_name", nullable = false)
+    @NotBlank(message = "Full Name is required")
+    @Size(min = 2, max = 100, message = "Full Name must be between 2 and 100 characters")
     private String fullName;
 
-    @Column(name = "job_title", nullable = false)
+    @NotBlank(message = "Employee ID is required")
+    @Column(unique = true) // Ensures uniqueness at the database level
+    private String employeeId;
+
+    @NotBlank(message = "Job Title is required")
     private String jobTitle;
 
-    @Column(nullable = false)
+    @NotBlank(message = "Department is required")
     private String department;
 
-    @Column(name = "hire_date", nullable = false)
+    @NotNull(message = "Hire Date is required")
     private LocalDate hireDate;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "employment_status", nullable = false)
-    private EmploymentStatus status;
+    @NotBlank(message = "Employment Status is required")
+    @Pattern(regexp = "Active|Inactive|Terminated", message = "Employment Status must be Active, Inactive, or Terminated")
+    private String employmentStatus;
 
-    @Column(nullable = false)
+    @NotBlank(message = "Email is required")
+    @Email(message = "Invalid email format")
     private String email;
 
-    @Column(nullable = false)
-    private String phone;
+    @NotBlank(message = "Contact Number is required")
+    @Pattern(regexp = "^(\\+\\d{1,3})?\\d{9,15}$", message = "Invalid contact number format")
+    private String contactNumber;
 
-    @Column(nullable = false)
+    @NotBlank(message = "Address is required")
     private String address;
-
-    public Employee() {
-    }
-
-    public Employee(Long id, String address, String phone, String email, EmploymentStatus status, LocalDate hireDate, String department, String jobTitle, String fullName, String employeeId) {
-        this.id = id;
-        this.address = address;
-        this.phone = phone;
-        this.email = email;
-        this.status = status;
-        this.hireDate = hireDate;
-        this.department = department;
-        this.jobTitle = jobTitle;
-        this.fullName = fullName;
-        this.employeeId = employeeId;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public EmploymentStatus getStatus() {
-        return status;
-    }
-
-    public void setStatus(EmploymentStatus status) {
-        this.status = status;
-    }
-
-    public LocalDate getHireDate() {
-        return hireDate;
-    }
-
-    public void setHireDate(LocalDate hireDate) {
-        this.hireDate = hireDate;
-    }
-
-    public String getDepartment() {
-        return department;
-    }
-
-    public void setDepartment(String department) {
-        this.department = department;
-    }
-
-    public String getJobTitle() {
-        return jobTitle;
-    }
-
-    public void setJobTitle(String jobTitle) {
-        this.jobTitle = jobTitle;
-    }
-
-    public String getFullName() {
-        return fullName;
-    }
-
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
-    }
-
-    public String getEmployeeId() {
-        return employeeId;
-    }
-
-    public void setEmployeeId(String employeeId) {
-        this.employeeId = employeeId;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 }
