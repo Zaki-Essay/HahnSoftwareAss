@@ -21,7 +21,7 @@ public class SwaggerConfig {
                 return new Docket(DocumentationType.SWAGGER_2)
                         .select()
                         .paths(PathSelectors.any())
-                        .apis(RequestHandlerSelectors.basePackage("com.ntapan"))
+                        .apis(RequestHandlerSelectors.basePackage("com.example"))
                         .build()
                         .apiInfo(apiInfo())
                         .pathMapping("/")
@@ -35,7 +35,7 @@ public class SwaggerConfig {
                         .title("Swagger with Spring Boot + Security")
                         .version("1.0.0")
                         .description("Your Description")
-                        .contact(new Contact("Contact Name", "Contact_URL","contact@email.com"))
+                        .contact(new Contact("zakariae ESSAIYDY", "Contact_URL","zakaressaiydy@gmail.com"))
                         .build();
         }
 }
